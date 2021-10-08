@@ -12,8 +12,4 @@ public class CruisecompanyApplication {
 		SpringApplication.run(CruisecompanyApplication.class, args);
 	}
 
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 }
