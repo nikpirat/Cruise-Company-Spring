@@ -1,57 +1,53 @@
 package com.project.cruisecompany.model;
 
-
-import lombok.Data;
-
 import javax.persistence.*;
-import java.util.Set;
+import javax.validation.constraints.NotBlank;
 
-@Data
 @Entity
-@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "username")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    @NotBlank(message = "Name is mandatory")
     private String name;
-    @Column(name = "password")
-    private String password;
 
-    @ManyToMany
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @NotBlank(message = "Email is mandatory")
+    private String email;
 
-    public Long getId() {
-        return id;
+    public User() {}
+
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public long getId() {
+        return id;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getName() {
+        return name;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public String getEmail() {
+        return email;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", name=" + name + ", email=" + email + '}';
     }
 }

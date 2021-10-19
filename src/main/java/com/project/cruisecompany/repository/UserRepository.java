@@ -1,10 +1,10 @@
-package com.project.cruisecompany.dao;
+package com.project.cruisecompany.repository;
 
 
 import com.project.cruisecompany.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserDao extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
     User findUserByName(String username);
 
 
