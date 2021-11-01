@@ -1,5 +1,6 @@
 package com.project.cruisecompany.repository;
 
+
 import com.project.cruisecompany.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
