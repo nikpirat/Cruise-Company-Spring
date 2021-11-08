@@ -1,7 +1,6 @@
 package com.project.cruisecompany.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity

@@ -1,15 +1,18 @@
 package com.project.cruisecompany.controller;
 
+import com.project.cruisecompany.model.CruiseInfo;
+import com.project.cruisecompany.model.Ship;
 import com.project.cruisecompany.model.User;
-import com.project.cruisecompany.repository.UserRepository;
+import com.project.cruisecompany.repository.CruiseInfoRepository;
+import com.project.cruisecompany.repository.ShipRepository;
 
 import com.project.cruisecompany.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -63,9 +66,15 @@ public class UserController {
 
     private final UserService userService;
 
+    private final ShipRepository shipRepository;
+
+    private final CruiseInfoRepository cruiseInfoRepository;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ShipRepository shipRepository, CruiseInfoRepository cruiseInfoRepository) {
         this.userService = userService;
+        this.shipRepository = shipRepository;
+        this.cruiseInfoRepository = cruiseInfoRepository;
     }
 
     @GetMapping("")
@@ -82,14 +91,12 @@ public class UserController {
 
     @PostMapping("/process_register")
     public String processRegister(User user) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-
         userService.save(user);
 
-        return "welcome";
+        return "users";
     }
+
+
 
     @GetMapping("/users")
     public String listUsers(Model model) {
@@ -97,5 +104,29 @@ public class UserController {
         model.addAttribute("listUsers", listUsers);
 
         return "users";
+    }
+
+    @PostMapping("/users")
+    public String listUsers(){
+        userService.findAll();
+
+        return "users";
+    }
+
+    @GetMapping("/user")
+    public String userCabinet(@RequestParam(value = "id", required = false) Long id, Model model){
+        List<Ship> shipList = shipRepository.findAll();
+        model.addAttribute("shipList", shipList);
+
+        model.addAttribute("id", id);
+//        List<CruiseInfo> cruiseInfoList = cruiseInfoRepository.findAll();
+
+        return "user";
+    }
+
+    @PostMapping("/user")
+    public String userCabinet(){
+        shipRepository.findAll();
+        return "user";
     }
 }

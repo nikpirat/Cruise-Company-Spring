@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
 <head>
     <meta charset="ISO-8859-1">
     <title>List Users</title>
@@ -12,7 +13,7 @@
     <div>
         <form th:action="@{/logout}" method="post">
             <p>
-                Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
+                Hello, <span th:text="${#request.userPrincipal.name}"></span>
             </p>
             <input type="submit" value="Sign Out" />
         </form>
