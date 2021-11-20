@@ -61,6 +61,48 @@
     <div class="text-center">
         <input class="btn btn-warning btn-padding-size" type="submit" value="Order">
     </div>
+
+    <div class="text-info text-center">
+        <h2>Your cruises : </h2>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Passenger Amount</th>
+            <th>Route to</th>
+            <th>Route from</th>
+            <th>Date of start trip</th>
+            <th>Date of end trip</th>
+            <th>Type of room</th>
+            <th>Price</th>
+            <th>Order number</th>
+        </tr>
+        </thead>
+<!--        <c:forEach items="${userShips}" var="amount" varStatus="generalIndex">-->
+<!--            <c:set var="index" value="${generalIndex.index}"/>-->
+<!--            <c:forEach items="${userShips}" var="userShips" varStatus="userShipsIndex">-->
+<!--                <c:if test="${userShipsIndex.index == index}">-->
+<!--                    <tr>-->
+<!--                        <td><c:out value="${userShips.name}"/></td>-->
+<!--                        <td><c:out value="${userShips.passengerAmount}"/></td>-->
+<!--                        <td><c:out value="${userShips.routeTo}"/></td>-->
+<!--                        <td><c:out value="${userShips.routeFrom}"/></td>-->
+<!--                        <td><c:out value="${userShips.travelStart}"/></td>-->
+<!--                        <td><c:out value="${userShips.travelEnd}"/></td>-->
+<!--                </c:if>-->
+<!--            </c:forEach>-->
+<!--            <c:forEach items="${cruisesInfo}" var="cruisesInfo" varStatus="cruise">-->
+<!--                <c:if test="${cruise.index == index}">-->
+<!--                    <td><c:out value="${cruisesInfo.roomType}"/></td>-->
+<!--                    <td><c:out value="${cruisesInfo.totalPrice}"/></td>-->
+<!--                    <td><c:out value="${cruisesInfo.id}"/></td>-->
+<!--                    </tr>-->
+<!--                </c:if>-->
+<!--            </c:forEach>-->
+<!--        </c:forEach>-->
+    </table>
+</div>
 </div>
 </body>
 </html>

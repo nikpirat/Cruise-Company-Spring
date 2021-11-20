@@ -10,11 +10,8 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 /**
- * Validator for {@link net.proselyte.springsecurityapp.model.User} class,
+ * Validator for {@link com.project.cruisecompany.model.User} class,
  * implements {@link Validator} interface.
- *
- * @author Eugene Suleimanov
- * @version 1.0
  */
 
 @Component

@@ -1,10 +1,11 @@
-package com.project.cruisecompany.service;
+package com.project.cruisecompany.service.impl;
 
 import com.project.cruisecompany.model.Role;
 import com.project.cruisecompany.model.User;
 import com.project.cruisecompany.repository.RoleRepository;
 import com.project.cruisecompany.repository.UserRepository;
 
+import com.project.cruisecompany.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

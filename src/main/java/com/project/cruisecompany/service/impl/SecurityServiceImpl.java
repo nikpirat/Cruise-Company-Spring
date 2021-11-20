@@ -1,5 +1,6 @@
-package com.project.cruisecompany.service;
+package com.project.cruisecompany.service.impl;
 
+import com.project.cruisecompany.service.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SecurityServiceImpl implements SecurityService {
 
-    private static final Logger logger = LoggerFactory.getLogger(com.project.cruisecompany.service.SecurityServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
 
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;

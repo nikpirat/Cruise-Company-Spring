@@ -1,4 +1,4 @@
-package com.project.cruisecompany.service;
+package com.project.cruisecompany.service.impl;
 
 import com.project.cruisecompany.model.Role;
 import com.project.cruisecompany.model.User;
@@ -17,8 +17,6 @@ import java.util.Set;
 /**
  * Implementation of {@link UserDetailsService} interface.
  *
- * @author Eugene Suleimanov
- * @version 1.0
  */
 
 
