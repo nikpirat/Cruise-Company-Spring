@@ -2,131 +2,189 @@ package com.project.cruisecompany.controller;
 
 import com.project.cruisecompany.model.CruiseInfo;
 import com.project.cruisecompany.model.Ship;
-import com.project.cruisecompany.model.User;
-import com.project.cruisecompany.repository.CruiseInfoRepository;
-import com.project.cruisecompany.repository.ShipRepository;
 
+import com.project.cruisecompany.model.User;
+import com.project.cruisecompany.model.enums.RoomType;
+import com.project.cruisecompany.service.CruiseInfoService;
+import com.project.cruisecompany.service.SecurityService;
+import com.project.cruisecompany.service.ShipService;
 import com.project.cruisecompany.service.UserService;
+import com.project.cruisecompany.service.impl.ShipServiceImpl;
+import com.project.cruisecompany.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class UserController {
-
-//    private final UserService userService;
-//    private final SecurityService securityService;
-//    private final UserValidator userValidator;
-//
-//    @Autowired
-//    public UserController(UserService userService, SecurityService securityService, UserValidator userValidator) {
-//        this.userService = userService;
-//        this.securityService = securityService;
-//        this.userValidator = userValidator;
-//    }
-//
-//    @GetMapping("/registration")
-//    public String registration(Model model){
-//        model.addAttribute("userForm", new User());
-//        return "registration";
-//    }
-//
-//    @PostMapping("/registration")
-//    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model){
-//        userValidator.validate(userForm,bindingResult);
-//
-//        if (bindingResult.hasErrors())
-//            return "registration";
-//        userService.save(userForm);
-//        securityService.autoLogin(userForm.getUsername(),userForm.getPassword());
-//
-//        return "redirect:/welcome";
-//    }
-//
-//    @GetMapping("/login")
-//    public String login(Model model, String error, String logout){
-//        if (error!=null)
-//            model.addAttribute("error","Username or password is incorrect");
-//        if (logout!=null)
-//            model.addAttribute("message","Logged out successfully");
-//        return "login";
-//    }
-//
-//    @GetMapping(value = {"/welcome","/"})
-//    public String welcome(Model model){return "welcome";}
-//
 //    @GetMapping("/admin")
 //    public String admin(Model model){return "admin";}
 
 
     private final UserService userService;
 
-    private final ShipRepository shipRepository;
+    private final ShipService shipService;
 
-    private final CruiseInfoRepository cruiseInfoRepository;
+    private final CruiseInfoService cruiseInfoService;
+
+    private final UserValidator userValidator;
+
+    private final SecurityService securityService;
 
     @Autowired
-    public UserController(UserService userService, ShipRepository shipRepository, CruiseInfoRepository cruiseInfoRepository) {
+    public UserController(UserService userService, ShipServiceImpl shipService, CruiseInfoService cruiseInfoService, UserValidator userValidator, SecurityService securityService) {
         this.userService = userService;
-        this.shipRepository = shipRepository;
-        this.cruiseInfoRepository = cruiseInfoRepository;
+        this.shipService = shipService;
+        this.cruiseInfoService = cruiseInfoService;
+        this.userValidator = userValidator;
+        this.securityService = securityService;
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     public String viewHomePage() {
         return "index";
     }
 
-    @GetMapping("/register")
+    @GetMapping("/registration")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
-
-        return "registration";
+        System.out.println("hello");
+        return "WEB-INF/views/index.jsp";
     }
+    @PostMapping("/registration")
+    public String registration(@ModelAttribute("user") User user, BindingResult bindingResult) {
+        userValidator.validate(user, bindingResult);
 
-    @PostMapping("/process_register")
-    public String processRegister(User user) {
+        if (bindingResult.hasErrors())
+            return "index";
         userService.save(user);
+        securityService.autoLogin(user.getUsername(), user.getPassword());
 
-        return "users";
-    }
-
-
-
-    @GetMapping("/users")
-    public String listUsers(Model model) {
-        List<User> listUsers = userService.findAll();
-        model.addAttribute("listUsers", listUsers);
-
-        return "users";
-    }
-
-    @PostMapping("/users")
-    public String listUsers(){
-        userService.findAll();
-
-        return "users";
+        return "redirect:/user";
     }
 
     @GetMapping("/user")
-    public String userCabinet(@RequestParam(value = "id", required = false) Long id, Model model){
-        List<Ship> shipList = shipRepository.findAll();
-        model.addAttribute("shipList", shipList);
+    public String userCabinet(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
-        model.addAttribute("id", id);
-//        List<CruiseInfo> cruiseInfoList = cruiseInfoRepository.findAll();
+        User user = userService.findByUsername(userDetails.getUsername());
+        model.addAttribute("user", user);
+
+        model.addAttribute("shipList", shipService.findAll());
+//        List<CruiseInfo> cruiseInfoList = cruiseInfoService.findAllByUserId(user.getId());
+//        model.addAttribute("userShips", shipService.findAllUserShips(cruiseInfoList));
+//        model.addAttribute("cruisesInfo", cruiseInfoList);
 
         return "user";
     }
-
     @PostMapping("/user")
-    public String userCabinet(){
-        shipRepository.findAll();
-        return "user";
+    public String userCabinet(@ModelAttribute("shipId") String[] ships, Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            User user = userService.findByUsername(username);
+
+            List<Ship> shipsInOrder = new ArrayList<>();
+            for (String order : ships)
+                shipsInOrder.add(shipService.findById(Long.valueOf(order)));
+
+            model.addAttribute("orderedCruises", shipsInOrder);
+            model.addAttribute("PRESIDENT", RoomType.PRESIDENT.getPrice());
+            model.addAttribute("COMFORT", RoomType.PRESIDENT.getPrice());
+            model.addAttribute("STANDART", RoomType.PRESIDENT.getPrice());
+            model.addAttribute("user", user);
+        }
+        return "orderDetails";
     }
+
+    @GetMapping("/topUp")
+    public String topUp() {
+        return "topUp";
+    }
+    @PostMapping("/topUp")
+    public String topUp(@ModelAttribute("amount") String amount) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            User user = userService.findByUsername(username);
+
+            if (NumberUtils.isNumber(amount) && Float.parseFloat(amount) >= 0) {
+                user.setBalance(user.getBalance() + Float.parseFloat(amount));
+                userService.update(user);
+            }
+        }
+        return "redirect:/user";
+//
+    }
+
+    @GetMapping("/order")
+    public String order(){
+        return "orderDetails";
+    }
+    @PostMapping("/order")
+    public String order(@ModelAttribute("shipId") String[] ships, @ModelAttribute("type") String type,@ModelAttribute("id") Long id, Model model){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            CruiseInfo cruiseInfo = new CruiseInfo();
+            float finalPrice = 0;
+
+            String username = ((UserDetails) principal).getUsername();
+            User user = userService.findByUsername(username);
+
+            for(String orderId:ships){
+                Ship ship = shipService.findById(Long.valueOf(orderId));
+                cruiseInfo.setShipId(Math.toIntExact(ship.getId()));
+
+                if ((type+orderId)==null || (type+orderId).isEmpty()){
+                    model.addAttribute("chooseRoomType", true);
+                    return "redirect:/orderDetails";
+                }
+                RoomType roomType = RoomType.valueOf(("type" + orderId));
+
+                cruiseInfo.setTotalPrice(ship.getPrice() + roomType.getPrice());
+                cruiseInfo.setUserId(Math.toIntExact(id));
+                cruiseInfo.setRoomType(roomType);
+                finalPrice += ship.getPrice() + roomType.getPrice();
+
+                if (user.getBalance() - finalPrice >= 0)
+                    cruiseInfo = cruiseInfoService.create(cruiseInfo);
+            }
+            if ((user.getBalance() - finalPrice) >= 0) {
+                user.setBalance(user.getBalance() - finalPrice);
+                userService.update(user);
+            } else {
+                model.addAttribute("notEnoughMoney", true);
+                model.addAttribute("orderPrice", finalPrice);
+                model.addAttribute("user", user);
+                return "redirect:/orderDetails";
+            }
+        }
+        return "redirect:/user";
+    }
+    //    @GetMapping("/users")
+//    public String listUsers(Model model) {
+//        List<User> listUsers = userService.findAll();
+//        model.addAttribute("listUsers", listUsers);
+//
+//        return "users";
+//    }
+
+//    @PostMapping("/users")
+//    public String listUsers() {
+//        userService.findAll();
+//
+//        return "users";
+//    }
 }

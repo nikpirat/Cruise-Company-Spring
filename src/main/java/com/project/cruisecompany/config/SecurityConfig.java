@@ -10,52 +10,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
 
-//@Configuration
-//@EnableWebSecurity
-//public class SecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//
-//    private final DataSource dataSource;
-//
-//    @Autowired
-//    public SecurityConfig(DataSource dataSource) {
-//        this.dataSource = dataSource;
-//    }
-//
-//    @Bean
-//    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Bean
-//    @Override
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
-//    }
-//
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        return super.userDetailsService();
-//    }
-//
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.jdbcAuthentication().dataSource(dataSource)
-//                .usersByUsernameQuery("SELECT USERNAME, PASSWORD, ENABLED FROM USERS WHERE USERNAME=?")
-//                .authoritiesByUsernameQuery("SELECT U.USERNAME, A.ROLE_ID\n" +
-//                        "        \t FROM USER_ROLES A, USERS U WHERE U.ID = A.USER_ID AND U.USERNAME = ?");
-//        ;
-//
-//    }
-//
-//
-//
-//
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
 //        http.authorizeRequests()
@@ -120,16 +80,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/users").authenticated()
-                .anyRequest().permitAll()
-                .and()
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                    .antMatchers("/","/index", "/registration").permitAll()
+                    .anyRequest()
+                    .authenticated()
+                    .and()
                 .formLogin()
-                .usernameParameter("username")
-                .defaultSuccessUrl("/user")
+                    .loginPage("/").permitAll()
+                    .defaultSuccessUrl("/user", true)
+                    .usernameParameter("login")
+                    .passwordParameter("password")
+                    .and()
+                .logout().logoutSuccessUrl("/")
                 .permitAll()
-                .and()
-                .logout().logoutSuccessUrl("/").permitAll();
+        ;
+//        http.authorizeRequests()
+//                .antMatchers("/users").authenticated()
+//                .anyRequest().permitAll()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login.html")
+//                .usernameParameter("username")
+//                .defaultSuccessUrl("/user")
+//                .permitAll()
+//                .and()
+//                .logout().logoutSuccessUrl("/").permitAll();
+//                .and()
+//                .authorizeRequests().antMatchers("/security/**").hasRole("ADMIN")
+//                .antMatchers("/user/**").hasRole("USER");
     }
 
 

@@ -1,0 +1,265 @@
+body {
+    background: #666;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.amount
+{
+    color: #D8D8D8;
+}
+
+.amount-wrap
+{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    width:50%;
+}
+
+.active-card
+{
+    padding: 20px;
+    background-color: #F0F5F7;
+}
+
+select
+{
+    position: absolute;
+    right: 0;
+    height: 96%;
+    top: 1px;
+    right: 1px;
+    border-radius: 3px;
+
+    padding: 5px 5px 5px 5px;
+    font-size: 16px;
+    border: 0px solid #CCC;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: #F0F5F7;
+    /*background: url(http://www.stackoverflow.com/favicon.ico) 96% / 15% no-repeat #EEE;*/
+}
+
+.card-holder
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: white;
+    border-radius: 3px;
+    border: 1px solid #D8D8D8;
+}
+
+.card-icon
+{
+    margin-right: 20px;
+}
+.container {
+    display: block;
+    max-width: 480px;
+    min-width: 300px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+.modal {
+    background: #FFF;
+    -webkit-border-radius: 3px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 3px;
+    -moz-background-clip: padding;
+    border-radius: 3px;
+    background-clip: padding-box;
+    overflow: hidden;
+}
+.modal .form .form-row {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-direction: normal;
+    -moz-box-direction: normal;
+    -webkit-box-orient: horizontal;
+    -moz-box-orient: horizontal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    margin: 0 0 30px;
+}
+
+.modal .form .input-group {
+    width: 100%;
+}
+.modal .form label {
+    display: block;
+    width: 100%;
+    margin: 0 0 10px;
+    color: #666;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.modal .form input {
+    outline: none;
+    display: block;
+    background: white;
+    width: 100%;
+    margin: 0;
+    border: 0;
+    -webkit-border-radius: 3px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 3px;
+    -moz-background-clip: padding;
+    border-radius: 3px;
+    background-clip: padding-box;
+    padding: 15px;
+    color: #999;
+    font-size: 12px;
+    font-weight: 700;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #bfbfbf;
+}
+.modal .header {
+    background: white;
+    padding: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #D8D8D8;
+}
+.modal .header h1 {
+    color: #5a6d7b;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.modal .header .card-type {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-direction: normal;
+    -moz-box-direction: normal;
+    -webkit-box-orient: horizontal;
+    -moz-box-orient: horizontal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.modal .header .card-type .card {
+    position: relative;
+    width: 25%;
+    min-width: 54px;
+    text-align: center;
+    -webkit-transition: 0.3s ease;
+    -moz-transition: 0.3s ease;
+    -o-transition: 0.3s ease;
+    transition: 0.3s ease;
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+.modal .header .card-type .card.active {
+    -webkit-filter: grayscale(0);
+    -moz-filter: grayscale(0);
+    -ms-filter: grayscale(0);
+    filter: grayscale(0);
+}
+.modal .header .card-type .card.active:after {
+    display: block;
+    bottom: -30px;
+}
+.modal .header .card-type .card:after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    margin: 0 0 0 -10px;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-bottom: 10px solid #FFF;
+    -webkit-transition: 0.3s ease;
+    -moz-transition: 0.3s ease;
+    -o-transition: 0.3s ease;
+    transition: 0.3s ease;
+}
+.modal .header .card-type .card img {
+    display: inline-block;
+}
+.modal .header .card-type li {
+    display: inline-block;
+    margin: 0 10px;
+}
+.modal .content {
+    padding: 20px;
+    background: white;
+}
+.footer
+{
+    display: flex;
+    flex-direction: row;
+
+}
+.modal .footer .button {
+    outline: none;
+    display: block;
+    width: auto;
+    border-radius: 3px;
+    padding: 15px 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.button.confirm
+{
+    background-color: #06c269;
+    border: 1px solid #00A56A;
+    margin-right: 15px;
+    color: white;
+}
+
+.button.cancel
+{
+    background-color: white;
+    border: 1px solid #bfbfbf;
+    margin-right: 15px;
+    color: #858585;
+}
+
+.info {
+    width: 300px;
+    margin: 50px auto;
+    text-align: center;
+}
+.info h1 {
+    margin: 0 0 15px;
+    padding: 0;
+    font-size: 24px;
+    font-weight: 400;
+    color: #333;
+}
+.info span {
+    color: #666;
+    font-size: 12px;
+}
+.info span a {
+    color: #000;
+    text-decoration: none;
+}
+.info span .fa {
+    color: #00A6EA;
+}

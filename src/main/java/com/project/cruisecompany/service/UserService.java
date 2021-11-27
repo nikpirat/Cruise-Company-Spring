@@ -6,10 +6,8 @@ import com.project.cruisecompany.model.User;
 import java.util.List;
 
 /**
- * Service class for {@link net.proselyte.springsecurityapp.model.User}
+ * Service class for {@link com.project.cruisecompany.model.User}
  *
- * @author Eugene Suleimanov
- * @version 1.0
  */
 
 public interface UserService {
@@ -18,5 +16,9 @@ public interface UserService {
 
     User findByUsername(String username);
 
+    User findById(Long id);
+
     List<User> findAll();
+
+    void update(User user);
 }

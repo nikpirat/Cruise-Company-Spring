@@ -10,37 +10,40 @@ import java.util.Objects;
 public class CruiseInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
+
+    //todo связи ship & user
+
     @Column(name = "ship_id")
-    private int shipId;
+    private long shipId;
     @Column(name = "room_type")
     private RoomType roomType;
     @Column(name = "total_price")
     private double totalPrice;
     @Column(name = "user_id")
-    private int userId;
+    private long userId;
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public int getShipId() {
+    public long getShipId() {
         return shipId;
     }
 
-    public void setShipId(int shipId) {
+    public void setShipId(long shipId) {
         this.shipId = shipId;
     }
 
@@ -87,4 +90,6 @@ public class CruiseInfo {
                 ", price=" + totalPrice +
                 '}';
     }
+
+
 }
