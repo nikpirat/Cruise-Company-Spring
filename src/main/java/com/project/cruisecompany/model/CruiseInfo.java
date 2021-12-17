@@ -12,8 +12,8 @@ public class CruiseInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    //todo связи ship & user
-
+//    @ManyToMany
+//    @JoinTable(name = "users", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "ship_id")
     private long shipId;
     @Column(name = "room_type")

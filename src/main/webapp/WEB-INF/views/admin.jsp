@@ -43,10 +43,10 @@
                         <c:url value="admin" var="URL">
                             <c:param name="id" value="${users.id}"/>
                         </c:url>
-                        <a href="/manageCruises"><c:out value="${users.login}"/> </a>
+                        <a href="/manageCruises"><c:out value="${users.username}"/> </a>
                     </td>
-                    <td href="/manageCruises?id=${users.getId()}"><c:out value="${users.name}"/></td>
-                    <td><c:out value="${users.surname}"/></td>
+                    <td href="/manageCruises?id=${users.getId()}"><c:out value="${users.firstName}"/></td>
+                    <td><c:out value="${users.secondName}"/></td>
                     <td><c:out value="${users.balance}"/></td>
                 </tr>
             </c:forEach>

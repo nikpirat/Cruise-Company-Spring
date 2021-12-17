@@ -1,6 +1,7 @@
 package com.project.cruisecompany.controller;
 
 import com.project.cruisecompany.model.CruiseInfo;
+import com.project.cruisecompany.model.Role;
 import com.project.cruisecompany.model.Ship;
 
 import com.project.cruisecompany.model.User;
@@ -27,9 +28,6 @@ import java.util.List;
 
 @Controller
 public class UserController {
-//    @GetMapping("/admin")
-//    public String admin(Model model){return "admin";}
-
 
     private final UserService userService;
 
@@ -79,10 +77,14 @@ public class UserController {
         User user = userService.findByUsername(userDetails.getUsername());
         model.addAttribute("user", user);
 
+        for (Role role:user.getRoles())
+            if (role.getName().equals("ROLE_ADMIN")) return "admin";
+
         model.addAttribute("shipList", shipService.findAll());
 //        List<CruiseInfo> cruiseInfoList = cruiseInfoService.findAllByUserId(user.getId());
 //        model.addAttribute("userShips", shipService.findAllUserShips(cruiseInfoList));
 //        model.addAttribute("cruisesInfo", cruiseInfoList);
+        //todo
 
         return "user";
     }
@@ -93,6 +95,7 @@ public class UserController {
         if (principal instanceof UserDetails) {
             String username = ((UserDetails) principal).getUsername();
             User user = userService.findByUsername(username);
+
 
             List<Ship> shipsInOrder = new ArrayList<>();
             for (String order : ships)
@@ -125,7 +128,6 @@ public class UserController {
             }
         }
         return "redirect:/user";
-//
     }
 
     @GetMapping("/order")
@@ -147,7 +149,7 @@ public class UserController {
                 Ship ship = shipService.findById(Long.valueOf(orderId));
                 cruiseInfo.setShipId(Math.toIntExact(ship.getId()));
 
-                if ((type+orderId)==null || (type+orderId).isEmpty()){
+                if ((type)==null || (type+orderId).isEmpty()){
                     model.addAttribute("chooseRoomType", true);
                     return "redirect:/orderDetails";
                 }
@@ -173,18 +175,19 @@ public class UserController {
         }
         return "redirect:/user";
     }
-    //    @GetMapping("/users")
-//    public String listUsers(Model model) {
-//        List<User> listUsers = userService.findAll();
-//        model.addAttribute("listUsers", listUsers);
-//
-//        return "users";
-//    }
 
-//    @PostMapping("/users")
-//    public String listUsers() {
-//        userService.findAll();
-//
-//        return "users";
-//    }
+    @GetMapping("/admin")
+    public String admin(Model model){
+//        int recordsPerPage = 3;
+//        int currentPage = 1;
+//        String recordsPerPageString = req.getParameter("recordsPerPage");
+//        if (recordsPerPageString != null && !recordsPerPageString.isEmpty()) {
+//            recordsPerPage = Integer.parseInt(req.getParameter("recordsPerPage"));
+//            currentPage = Integer.parseInt(req.getParameter("currentPage"));
+//        }//todo pagination
+        List<User> listUsers = userService.findAll();
+        model.addAttribute("usersPag", listUsers);
+        return "/admin";
+    }
+
 }

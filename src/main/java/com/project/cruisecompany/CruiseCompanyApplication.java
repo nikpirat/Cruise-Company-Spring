@@ -22,7 +22,6 @@ public class CruiseCompanyApplication {
 		SpringApplication.run(CruiseCompanyApplication.class, args);
 	}
 
-
 	@Bean
 	public InternalResourceViewResolver setupViewResolver() {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
